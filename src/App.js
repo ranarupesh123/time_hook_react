@@ -1,20 +1,18 @@
-import React,{useState}from 'react';
+import React,{useState} from 'react';
 
-let currTime = new Date().toLocaleTimeString();
+const currTime = new Date().toLocaleTimeString();
 
-const App = ()=>{
+const App =()=>{
   const [state,setState] = useState(currTime);
   const UpdateTime = ()=>{
-    let newTime = new Date().toLocaleTimeString();
+    const newTime = new Date().toLocaleTimeString();
     setState(newTime);
   }
+  setInterval(UpdateTime,1000);
+ 
   return(
     <>
-      <div className="container">
-        <h1>{state}</h1>
-        <br/>
-        <button onClick={UpdateTime}  className="btn">Curr Time</button>
-      </div>
+      <h1 className="container">{state}</h1>
     </>
   );
 }
