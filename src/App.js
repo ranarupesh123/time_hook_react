@@ -1,20 +1,58 @@
 import React,{useState} from 'react';
+import ToDoList from './ToDoList';
 
-const currTime = new Date().toLocaleTimeString();
 
-const App =()=>{
-  const [state,setState] = useState(currTime);
-  const UpdateTime = ()=>{
-    const newTime = new Date().toLocaleTimeString();
-    setState(newTime);
+const App = ()=>{
+  const [inputItem,setInputItem] = useState();
+  const [Items,setItems] = useState([]);
+
+
+  const itemEvent = (event)=>{
+    setInputItem(event.target.value);
+  };
+
+  const listOfItems =()=>{
+    setItems((oldItems)=>{
+      return [...oldItems,inputItem];
+    });
+    setInputItem(" ");
+  };
+
+  const DeleteItem = (id)=>{
+    // console.log("hello");
+    setItems((oldItems)=>{
+      return oldItems.filter((arrEle,index)=>{
+        return index !== id;
+      })
+    })
   }
-  setInterval(UpdateTime,1000);
- 
-  return(
+  return (
     <>
-      <h1 className="container">{state}</h1>
+    <div className="main_div">
+      <div className="center_div">
+        <br/>
+        <h1>To Do List</h1>
+        <br/>
+        <input
+        type="text"
+        placeholder="Add a Item"
+        onChange = {itemEvent}
+        value ={inputItem}
+        />
+        <button onClick={listOfItems}>+</button>
+        <ol>
+             {Items.map((ItemValue,index)=>{
+              return <ToDoList key = {index }
+              id ={index} text={ItemValue}
+              onSelect={DeleteItem}/>;
+            })}
+        </ol>
+      </div>
+    </div>
     </>
   );
 }
 
+
 export default App;
+
